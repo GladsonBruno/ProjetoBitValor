@@ -1,0 +1,13 @@
+create database bitvalor;
+use bitvalor;
+
+create table Compras(
+	Id int IDENTITY(1,1) primary key not null,
+	OpcaoCompra varchar (50),
+	ValorCompra float (50),
+	OpcaoVenda varchar (50),
+	ValorVenda float (50),
+	Montante float (50),
+	QtdeLucro float (50),
+	PercentualLucro float (50)
+)
