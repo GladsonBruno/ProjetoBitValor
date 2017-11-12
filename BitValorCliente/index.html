@@ -149,7 +149,7 @@
                 //Definindo variável que irá guardar os elementos do banco
                 elementos += "<tr scope='row'><td>" + resultado[item].Id + "</td><td>" + resultado[item].OpcaoCompra + "</td>" + "<td>R$ " + resultado[item].ValorCompra + "</td>" + "<td>" + resultado[item].OpcaoVenda + "</td>" + "<td>R$ " + resultado[item].ValorVenda + "</td>" + "<td>R$ " + resultado[item].Montante + "</td>" + "<td>R$ " + resultado[item].QuantidadeLucro + "</td>" + "<td>" + resultado[item].PorcentagemLucro + " %</td> <td><button class='btn btn-danger' id='" + resultado[item].Id + "' onclick='excluir(" + resultado[item].Id + ")'>Excluir</button></td> </tr>";
             }
-            //Colocando elementos do bando na tabela
+            //Colocando elementos do bando na tabela.
             $(".ConteudoTabelaCompras").append(elementos);                
         }
         requisicao.send();
