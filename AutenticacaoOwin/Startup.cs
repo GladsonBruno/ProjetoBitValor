@@ -8,7 +8,7 @@ using Microsoft.Owin.Cors;
 using Microsoft.Owin.Security.OAuth;
 
 
-//[assembly: OwinStartup(typeof(AutenticacaoOwin.Startup))]
+[assembly: OwinStartup(typeof(AutenticacaoOwin.Startup))]
 
 namespace AutenticacaoOwin
 {

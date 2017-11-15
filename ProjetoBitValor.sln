@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BitValorCliente", "BitValor
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AutenticacaoOwin", "AutenticacaoOwin\AutenticacaoOwin.csproj", "{A54E60F4-9B68-4E02-8791-E0D1C1E92BED}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AutenticacaoComOwin", "AutenticacaoComOwin\AutenticacaoComOwin.csproj", "{CE2892FE-15A7-4D41-AF1A-3305CCE97CB2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{A54E60F4-9B68-4E02-8791-E0D1C1E92BED}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A54E60F4-9B68-4E02-8791-E0D1C1E92BED}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A54E60F4-9B68-4E02-8791-E0D1C1E92BED}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CE2892FE-15A7-4D41-AF1A-3305CCE97CB2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CE2892FE-15A7-4D41-AF1A-3305CCE97CB2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CE2892FE-15A7-4D41-AF1A-3305CCE97CB2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CE2892FE-15A7-4D41-AF1A-3305CCE97CB2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
