@@ -42,7 +42,7 @@ namespace AutenticacaoOwin
                 TokenEndpointPath = new PathString("/token"),
                 //Tempo de validade do token
                 AuthorizationCodeExpireTimeSpan = TimeSpan.FromHours(2),
-                Provider = new ProvideDeTokensDeAcesso();
+                Provider = new ProvideDeTokensDeAcesso()
             };
             app.UseOAuthAuthorizationServer(opcoesConfiguracaoToken);
             app.UseOAuthBearerAuthentication(new OAuthBearerAuthenticationOptions());
