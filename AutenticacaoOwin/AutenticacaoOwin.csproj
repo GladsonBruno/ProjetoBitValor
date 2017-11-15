@@ -109,6 +109,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ProvideDeTokensDeAcesso.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>

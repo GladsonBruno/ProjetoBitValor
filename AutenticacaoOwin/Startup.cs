@@ -5,6 +5,7 @@ using Owin;
 using System.Web.Http;
 using System.Web.Cors;
 using Microsoft.Owin.Cors;
+using Microsoft.Owin.Security.OAuth;
 
 
 //[assembly: OwinStartup(typeof(AutenticacaoOwin.Startup))]
@@ -33,7 +34,18 @@ namespace AutenticacaoOwin
 
         private void AtivandoAccessToken(IAppBuilder app)
         {
-
+            var opcoesConfiguracaoToken = new OAuthAuthorizationServerOptions
+            {
+                //Permite acessar o endereço sem o uso de HTTPS
+                AllowInsecureHttp = true,
+                //Endereço de fornecimento de tokens de acesso
+                TokenEndpointPath = new PathString("/token"),
+                //Tempo de validade do token
+                AuthorizationCodeExpireTimeSpan = TimeSpan.FromHours(2),
+                Provider = new ProvideDeTokensDeAcesso();
+            };
+            app.UseOAuthAuthorizationServer(opcoesConfiguracaoToken);
+            app.UseOAuthBearerAuthentication(new OAuthBearerAuthenticationOptions());
         }
 
         //Configuração personalizada do cors
