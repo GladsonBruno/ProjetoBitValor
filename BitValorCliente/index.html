@@ -1,7 +1,7 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
-    <title></title>
+    <title>BitValor</title>
     <meta charset="utf-8" />
     <!-- Última versão CSS compilada e minificada -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
@@ -11,230 +11,58 @@
     <!-- Tema opcional -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
 
+    <!--Estilização Login-->
+    <link rel="stylesheet" href="style/EstiloLogin.css" />
+
     <!-- Última versão JavaScript compilada e minificada -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-
 </head>
 <body>
+    <br /><br /><br /><br />
     <div class="container">
-        <br /><br />
-        <h1>Viabilidade Spred</h1>
+        <h1>BitValor Compra de Bitcoins</h1>
         <div class="jumbotron">
-            <h4>Exchange de Compra</h4>
-            FB
-            <input type="radio" name="opcaoCompra" value="FB" />
-            MB
-            <input type="radio" name="opcaoCompra" value="MB" />
-            B2U
-            <input type="radio" name="opcaoCompra" value="B2U" />
-
+            <h1>Login</h1>
             <br />
 
-            Compra: <input type="number" id="valorCompra" value="" />
-            <br />
-            <h4>Exchange de Venda</h4>
-            FB
-            <input type="radio" name="opcaoVenda" value="FB" />
-            MB
-            <input type="radio" name="opcaoVenda" value="MB" />
-            B2U
-            <input type="radio" name="opcaoVenda" value="B2U" />
+            <form action="#" class="formLogin">
+                <div class="form-group">
+                    <label for="Email"><h3>E-mail</h3></label>
+                    <input type="text" class="form-control" id="Email" placeholder="Digite seu E-mail" />
+                </div>
+                <div class="form-group">
+                    <label for="Senha"><h3>Senha</h3></label>
+                    <input type="password" class="form-control" id="Senha" placeholder="Digite sua Senha" />
+                </div>
+                <button class="btn btn-primary" onclick="Login()"><h3>Entrar &Omega;</h3></button>
+            </form>
 
-            <br />
-            Venda: <input type="number" id="valorVenda" value="" />
-            <br /><br />
-            <!--Investimento Reais-->
-            Montante: <input type="number" id="montante" value="" />
-
-            <br /><br />
-            Qtd R$: <span id="Lucro"></span><br/>
-            Qual %: <span id="PorcentagemLucro"></span>
-
-            <br /><br />
-            <button class="btn btn-success" onclick="calcular()">Calcular</button>
-            <button class="btn btn-primary" onclick="Comprar()">Comprar</button>
         </div>
     </div>
-    
-    <div class="container">
-        <h1>Compras</h1>
-            <table class="table table-dark">
-                <thead>
-                    <tr scope="row">
-                        <th scope="col">Número Transação</th>
-                        <th scope="col">Comprado Em</th>
-                        <th scope="col">Valor Compra</th>
-                        <th scope="col">Vendido Em</th>
-                        <th scope="col">Valor Venda</th>
-                        <th scope="col">Montante</th>
-                        <th scope="col">Quantidade de Lucro</th>
-                        <th scope="col">Percentual de Lucro</th>
-                        <th>Excluir</th>
-                    </tr>
-                </thead>
-                <tbody class="ConteudoTabelaCompras">
 
-                </tbody>
-            </table>
-    </div>
 
 </body>
 <script>
+    function Login() {
+        var usuario = $("#Email").val();
+        var senha = $("#Senha").val();
 
-    function calcular() {
-        var opcaoCompra = $("input[type=radio][name=opcaoCompra]").filter(':checked').val();
-        var valorCompra = $("#valorCompra").val();
-        var opcaoVenda = $("input[type=radio][name=opcaoVenda]").filter(':checked').val();
-        var valorVenda = $("#valorVenda").val();
-        var montante = $("#montante").val();
-
-        var erro = "";
-        if (opcaoCompra == undefined) {
-            erro += "Preencha o campo Opção Compra\n";
-        }
-        if (valorCompra == "") {
-            erro += "Preencha o campo Valor Compra\n";
-        }
-        if (opcaoVenda == undefined) {
-            erro += "Preencha o campo Opção Venda\n";
-        }
-        if (valorVenda == "") {
-            erro += "Preencha o campo Valor Venda\n";
-        }
-        if (montante == "") {
-            erro += "Preencha o campo Montante\n";
+        var dado = {
+            username: usuario,
+            password: senha,
+            grant_type: 'password'
         }
 
-        if (erro == "") {
-            var dado = {
-                Id: 1,
-                OpcaoCompra: opcaoCompra,
-                ValorCompra: valorCompra,
-                OpcaoVenda: opcaoVenda,
-                ValorVenda: valorVenda,
-                Montante: montante
-            };
-
-
-            var requisicao = new XMLHttpRequest();
-            requisicao.open('POST', 'http://localhost:49744/api/bitvalor', false);
-            requisicao.setRequestHeader('content-type', 'application/json');
-            requisicao.onload = function () {
-                var resultado = JSON.parse(this.responseText);
-
-                $("#Lucro").html(resultado.QuantidadeLucro);
-                $("#PorcentagemLucro").html(resultado.PorcentagemLucro);
-            }
-
-            requisicao.send(JSON.stringify(dado));
-        } else {
-            alert(erro);
-        }
-
-        
-
-    }
-
-    $(document).ready(function () {
         var requisicao = new XMLHttpRequest();
-        requisicao.open('GET', 'http://localhost:49744/api/compra', true);
+        requisicao.open("POST", "http://localhost:52825/token", true);
+        requisicao.setRequestHeader('content-type', 'application/x-www-form-urlencoded');
         requisicao.onload = function () {
             var resultado = JSON.parse(this.responseText);
             console.log(resultado);
-            var elementos;
-            
-            for (var item in resultado) {
-                //Definindo variável que irá guardar os elementos do banco
-                elementos += "<tr scope='row'><td>" + resultado[item].Id + "</td><td>" + resultado[item].OpcaoCompra + "</td>" + "<td>R$ " + resultado[item].ValorCompra + "</td>" + "<td>" + resultado[item].OpcaoVenda + "</td>" + "<td>R$ " + resultado[item].ValorVenda + "</td>" + "<td>R$ " + resultado[item].Montante + "</td>" + "<td>R$ " + resultado[item].QuantidadeLucro + "</td>" + "<td>" + resultado[item].PorcentagemLucro + " %</td> <td><button class='btn btn-danger' id='" + resultado[item].Id + "' onclick='excluir(" + resultado[item].Id + ")'>Excluir</button></td> </tr>";
-            }
-            //Colocando elementos do bando na tabela.
-            $(".ConteudoTabelaCompras").append(elementos);                
         }
-        requisicao.send();
-
-    });
-
-    function excluir(id) {
-        
-        var exclusao = confirm("Deseja excluir a transação número " + id);
-        if (exclusao == true) {
-            var requisicaoExclusao = new XMLHttpRequest();
-            requisicaoExclusao.open('DELETE', 'http://localhost:49744/api/compra/' + id, true);
-            requisicaoExclusao.setRequestHeader('content-type', 'application/json');
-            requisicaoExclusao.onload = function () {
-
-            }
-            requisicaoExclusao.send(id);
-
-            var teste = alert("Transação Número: " + id + " Excluída com Sucesso");
-            
-            setInterval(function () { location.reload(); }, 2000);
-        }        
+        requisicao.send(JSON.stringify(dado));
     }
-
-    function Comprar() {
-        
-        calcular();
-        
-        
-            var opcaoCompra = $("input[type=radio][name=opcaoCompra]").filter(':checked').val();
-            var valorCompra = $("#valorCompra").val();
-            var opcaoVenda = $("input[type=radio][name=opcaoVenda]").filter(':checked').val();
-            var valorVenda = $("#valorVenda").val();
-            var montante = $("#montante").val();
-            var lucro = $("#Lucro").html();
-            var porcentagemLucro = $("#PorcentagemLucro").html();
-
-            var erro = "";
-            if (opcaoCompra == undefined) {
-                erro += "Preencha o campo Opção Compra\n";
-            }
-            if (valorCompra == "") {
-                erro += "Preencha o campo Valor Compra\n";
-            }
-            if (opcaoVenda == undefined) {
-                erro += "Preencha o campo Opção Venda\n";
-            }
-            if (valorVenda == "") {
-                erro += "Preencha o campo Valor Venda\n";
-            }
-            if (montante == "") {
-                erro += "Preencha o campo Montante\n";
-            }
-
-            if (erro == "") {
-
-                var objetoCompra = new Object();
-                objetoCompra.Id = 1;
-                objetoCompra.OpcaoCompra = opcaoCompra;
-                objetoCompra.ValorCompra = valorCompra;
-                objetoCompra.OpcaoVenda = opcaoVenda;
-                objetoCompra.ValorVenda = valorVenda;
-                objetoCompra.Montante = montante;
-                objetoCompra.QuantidadeLucro = lucro;
-                objetoCompra.PorcentagemLucro = porcentagemLucro;
-
-                console.log(objetoCompra);
-
-                var requisicaoCompra = new XMLHttpRequest();
-                requisicaoCompra.open('POST', 'http://localhost:49744/api/Compra', true);
-                requisicaoCompra.setRequestHeader('content-type', 'application/json');
-                requisicaoCompra.onload = function () {
-
-                }
-                requisicaoCompra.send(JSON.stringify(objetoCompra));
-                setInterval(function () { location.reload(); }, 2000);
-
-            }
-    }
-
-    
-
-    
-    
 </script>
-
-
 </html>
