@@ -31,6 +31,7 @@ namespace ProjetoBitValor.Controllers
             while (ler.Read())
             {
                 compras.Add(new BitValor(Convert.ToInt32(ler["Id"]),
+                    Convert.ToInt32(ler["IdUsuario"]),
                     ler["OpcaoCompra"].ToString(),
                     float.Parse(ler["ValorCompra"].ToString()),
                     ler["OpcaoVenda"].ToString(),

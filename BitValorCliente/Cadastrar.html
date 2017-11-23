@@ -1,0 +1,118 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Cadastrar</title>
+    <meta charset="utf-8" />
+
+    <!-- Última versão CSS compilada e minificada -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <!--Bootstrap 4-->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
+
+    <!-- Tema opcional -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+    <!--Estilização Login-->
+    <link rel="stylesheet" href="style/EstiloLogin.css" />
+
+    <!-- Última versão JavaScript compilada e minificada -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    </head>
+    <body>
+        <br /><br /><br /><br />
+        <div class="container">
+            <h1>BitValor Compra de Bitcoins</h1>
+            <a href="http://localhost:49774/Index.html"><button class="btn btn-info" style="float: right"><h3>Voltar</h3></button></a>
+            <div class="jumbotron">
+                <h1>Cadastro</h1>
+                <br />
+
+                <form action="#" class="formLogin">
+                    <div class="form-group">
+                        <label for="NomeUsuario"><h3>Nome de Usuário</h3></label>
+                        <input type="text" class="form-control" id="NomeUsuario" placeholder="Digite seu nome de Usuário" />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="Email"><h3>E-mail</h3></label>
+                        <input type="text" class="form-control" id="Email" placeholder="Digite seu E-mail" />
+                    </div>
+                    <div class="form-group">
+                        <label for="Senha"><h3>Senha</h3></label>
+                        <input type="password" class="form-control" id="Senha" placeholder="Digite sua Senha" />
+                    </div>
+                    <div class="form-group">
+                        <label for="ConfirmarSenha"><h3>Confirmação de Senha</h3></label>
+                        <input type="password" class="form-control" id="ConfirmarSenha" placeholder="Digite a confirmação de sua Senha" />
+                    </div>
+
+                </form>
+
+                <button class="btn btn-success" onclick="Cadastrar()"><h3>Cadastrar &hearts;</h3></button>
+            </div>
+        </div>
+    </body>
+<script>
+    function Cadastrar() {
+        var nomeUsuario = $("#NomeUsuario").val();
+        var email = $("#Email").val();
+        var senha = $("#Senha").val();
+        var confirmarSenha = $("#ConfirmarSenha").val();
+        var erro = "";
+
+        if (nomeUsuario == "") {
+            erro += "Preencha o campo nome de usuário\n";
+        }
+        if (email == "") {
+            erro += "Preencha o campo email\n"
+        }
+        if (senha == "") {
+            erro += "Preencha o campo senha\n";
+        }
+        if (confirmarSenha == "") {
+            erro += "Preencha o campo confirmação de senha\n";
+        }
+        if (senha != "" && confirmarSenha != "" & senha != confirmarSenha) {
+            erro += "A confirmação de senha deve ser igual a senha";
+        }
+
+        if (erro == "") {
+
+            var NovoUser = {
+                Nome: nomeUsuario,
+                Email: email,
+                Senha: senha
+            }
+
+            var requisicao = new XMLHttpRequest();
+            requisicao.open("POST", "http://localhost:49744/api/Cadastrar", true);
+            requisicao.setRequestHeader('content-type', 'application/json');
+            requisicao.onreadystatechange = function () {
+                if (this.readyState == 4 && this.status == 200) {
+                    console.log(this.responseText);
+                }
+                if (this.status == 500) {
+                    console.log(this.responseText);
+                }
+            }
+
+            console.log(NovoUser);
+
+            requisicao.send(JSON.stringify(NovoUser));
+
+            alert("Usuário " + nomeUsuario + " Cadastrado com sucesso");
+            setInterval(function () {
+                window.location.assign("http://localhost:49774/Index.html");
+            }, 1000);
+
+        } else {
+
+            alert(erro);
+
+        }
+        
+    }
+</script>
+</html>

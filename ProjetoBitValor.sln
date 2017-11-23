@@ -1,13 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.27004.2005
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProjetoBitValor", "ProjetoBitValor\ProjetoBitValor.csproj", "{C02D8D90-F983-4D19-A922-EAB3A90BA9EC}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BitValorCliente", "BitValorCliente\BitValorCliente.csproj", "{11BD0069-67C6-41C8-A490-F278DC76E80C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OwinAutentication", "D:\ProjetoBitValor\OwinAutentication\OwinAutentication\OwinAutentication.csproj", "{3FEC5F55-7B5B-4A16-9C39-6B82A1987981}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AutenticacaoOwin", "AutenticacaoOwin\AutenticacaoOwin\AutenticacaoOwin.csproj", "{3B11D1E5-D147-4587-B5FA-08965A0D4488}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -23,15 +23,12 @@ Global
 		{11BD0069-67C6-41C8-A490-F278DC76E80C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{11BD0069-67C6-41C8-A490-F278DC76E80C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{11BD0069-67C6-41C8-A490-F278DC76E80C}.Release|Any CPU.Build.0 = Release|Any CPU
-		{3FEC5F55-7B5B-4A16-9C39-6B82A1987981}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{3FEC5F55-7B5B-4A16-9C39-6B82A1987981}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{3FEC5F55-7B5B-4A16-9C39-6B82A1987981}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{3FEC5F55-7B5B-4A16-9C39-6B82A1987981}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3B11D1E5-D147-4587-B5FA-08965A0D4488}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3B11D1E5-D147-4587-B5FA-08965A0D4488}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3B11D1E5-D147-4587-B5FA-08965A0D4488}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3B11D1E5-D147-4587-B5FA-08965A0D4488}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
-	EndGlobalSection
-	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {28854BA3-ECAC-4661-AFCE-E8042D1E9ED2}
 	EndGlobalSection
 EndGlobal

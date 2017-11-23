@@ -16,22 +16,32 @@ namespace ProjetoBitValor.Controllers
     public class CompraController : ApiController
     {
         // GET: api/Compra
-        public IEnumerable<BitValor> Get()
+        public string Get()
+        {
+            return "value";
+        }
+
+        // GET: api/Compra/5
+        public IEnumerable<BitValor> Get(int id)
         {
             SqlConnection minhaConexao = new SqlConnection(ConfigurationManager.ConnectionStrings["minhaConexao"].ConnectionString);
 
             minhaConexao.Open();
 
-            String select = "SELECT * FROM Compras";
-            SqlCommand selectCommand = new SqlCommand(select, minhaConexao);
+            string selectCommand = "select * from compras where IdUsuario = @id";
+            SqlCommand comando = minhaConexao.CreateCommand();
+            comando.CommandType = CommandType.Text;
+            comando.CommandText = selectCommand;
+            comando.Parameters.AddWithValue("@id", id);
 
-            SqlDataReader ler = selectCommand.ExecuteReader();
+            SqlDataReader ler = comando.ExecuteReader();
 
             List<BitValor> compras = new List<BitValor>();
 
             while (ler.Read())
             {
                 compras.Add(new BitValor(Convert.ToInt32(ler["Id"]),
+                    Convert.ToInt32(ler["IdUsuario"]),
                     ler["OpcaoCompra"].ToString(),
                     float.Parse(ler["ValorCompra"].ToString()),
                     ler["OpcaoVenda"].ToString(),
@@ -45,24 +55,19 @@ namespace ProjetoBitValor.Controllers
             return (compras);
         }
 
-        // GET: api/Compra/5
-        public string Get(int id)
-        {
-            return "value";
-        }
-
         // POST: api/Compra
         public void Post(BitValor value)
         {
             SqlConnection minhaConexao = new SqlConnection(ConfigurationManager.ConnectionStrings["minhaConexao"].ConnectionString);
             minhaConexao.Open();
-            String query = $"insert into Compras(OpcaoCompra, ValorCompra, OpcaoVenda, ValorVenda, Montante, QtdeLucro, PercentualLucro) values (@OpCompra, @ValCompra, @OpVenda, @ValVenda, @Montante, @QtdLucro, @PercLucro)";
+            String query = $"insert into Compras(IdUsuario, OpcaoCompra, ValorCompra, OpcaoVenda, ValorVenda, Montante, QtdeLucro, PercentualLucro) values (@IdUsuario, @OpCompra, @ValCompra, @OpVenda, @ValVenda, @Montante, @QtdLucro, @PercLucro)";
 
 
             SqlCommand comandoInsert = minhaConexao.CreateCommand();
             comandoInsert.CommandType = CommandType.Text;
             comandoInsert.CommandText = query;
 
+            comandoInsert.Parameters.AddWithValue("@IdUsuario", value.IdUsuario);
             comandoInsert.Parameters.AddWithValue("@OpCompra", value.OpcaoCompra);
             comandoInsert.Parameters.AddWithValue("@ValCompra", value.ValorCompra);
             comandoInsert.Parameters.AddWithValue("@OpVenda", value.OpcaoVenda);
@@ -86,7 +91,7 @@ namespace ProjetoBitValor.Controllers
             SqlConnection minhaConexao = new SqlConnection(ConfigurationManager.ConnectionStrings["minhaConexao"].ConnectionString);
             minhaConexao.Open();
             
-            string queryComandoDelete = "delete from compras where id = " + id + "";
+            string queryComandoDelete = $"delete from compras where id = {id}";
             SqlCommand comandoDelete = minhaConexao.CreateCommand();
             comandoDelete.CommandType = CommandType.Text;
             comandoDelete.CommandText = queryComandoDelete;

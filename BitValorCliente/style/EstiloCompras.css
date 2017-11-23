@@ -1,0 +1,25 @@
+﻿body {
+    background: url("https://themerkle.com/wp-content/uploads/2017/07/shutterstock_608089037.jpg") no-repeat center center fixed;
+    background-size: cover;
+    background-attachment: fixed;
+    color: white;
+    font-size: 13px;
+}
+
+input{
+    color: black;
+}
+
+.jumbotron {
+    background: rgba(130,130,130,.3);
+}
+
+h1, h4{
+    color: white;
+}
+
+.jumbotron h1 {
+    color: white;
+}
+
+h3 {

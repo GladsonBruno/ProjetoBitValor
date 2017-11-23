@@ -3,6 +3,7 @@ use bitvalor;
 
 create table Compras(
 	Id int IDENTITY(1,1) primary key not null,
+	IdUsuario int,
 	OpcaoCompra varchar (50),
 	ValorCompra float (50),
 	OpcaoVenda varchar (50),
@@ -11,3 +12,14 @@ create table Compras(
 	QtdeLucro float (50),
 	PercentualLucro float (50)
 )
+
+create table Usuarios(
+	Id int not null primary key identity(1,1),
+	UserName varchar(100),
+	Email varchar(100),
+	Password varchar(100)
+);
+drop table usuarios
+insert into Usuarios (UserName, Email, Password)values('Gladson', 'gladsonbruno16@gmail.com' ,'1234')
+
+select * from Usuarios where Email = 'gladsonbruno16@gmail.com' and Password = '1234'

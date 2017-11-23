@@ -12,7 +12,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
 
     <!--Estilização Login-->
-    <link rel="stylesheet" href="styles/EstiloLogin.css" />
+    <link rel="stylesheet" href="style/EstiloLogin.css" />
 
     <!-- Última versão JavaScript compilada e minificada -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
@@ -36,33 +36,90 @@
                     <label for="Senha"><h3>Senha</h3></label>
                     <input type="password" class="form-control" id="Senha" placeholder="Digite sua Senha" />
                 </div>
-                <button class="btn btn-primary" onclick="Login()"><h3>Entrar &Omega;</h3></button>
-            </form>
 
+            </form>
+            <button class="btn btn-primary" onclick="Login()"><h3>Entrar &Omega;</h3></button>
+            <a href="Cadastrar.html"><button class="btn btn-success"><h3>Cadastrar &hearts;</h3></button></a>
         </div>
     </div>
 
 
 </body>
 <script>
+    function Cadastro() {
+        window.location.assign("http://localhost:49774/Cadastrar.html");
+    }
+
     function Login() {
         var usuario = $("#Email").val();
         var senha = $("#Senha").val();
+        var erro = "";
+        var erroLogin = "";
 
-        var dado = {
-            username: usuario,
-            password: senha,
-            grant_type: 'password'
+        if (usuario == "") {
+            erroLogin = "Preencha o nome de usuario\n";
+        }
+        if (senha == "") {
+            erroLogin += "Preencha o campo senha";
         }
 
-        var requisicao = new XMLHttpRequest();
-        requisicao.open("POST", "http://localhost:52825/token", true);
-        requisicao.setRequestHeader('content-type', 'application/x-www-form-urlencoded');
-        requisicao.onload = function () {
-            var resultado = JSON.parse(this.responseText);
-            console.log(resultado);
+        if (erroLogin == "") {
+
+            var dado = {
+                username: usuario,
+                password: senha,
+                grant_type: 'password'
+            }
+
+            var UsuarioLogin = {
+                Email: usuario,
+                Senha: senha
+            }
+
+            //Requisição que irá pegar o token de autenticação
+            var requisicao = new XMLHttpRequest();
+            requisicao.open("POST", "http://localhost:52825/token", true);
+            requisicao.setRequestHeader('content-type', 'application/x-www-form-urlencoded');
+            requisicao.onload = function () {
+                var resultado = JSON.parse(this.responseText);
+                if (resultado.access_token == undefined) {
+                    erro = resultado.error_description;
+                    alert("Erro: " + resultado.error_description);
+                } else {
+                    var token = resultado.access_token;
+                    localStorage.setItem("token", token);
+
+                    //Requisição que irá pegar o id e o nome do usuario
+                    var requisitarIdUsuario = new XMLHttpRequest();
+                    var urlLogin = "http://localhost:49744/api/Login?email=" + UsuarioLogin.Email + "&senha=" + UsuarioLogin.Senha;
+                    requisitarIdUsuario.open("GET", urlLogin, false);
+                    requisitarIdUsuario.setRequestHeader("content-type", "application/json");
+                    requisitarIdUsuario.onreadystatechange = function () {
+                        if (this.readyState == 4 && this.status == 200) {
+                            console.log(this.responseText);
+                            var resultadoInfoUsuario = JSON.parse(this.responseText);
+                            localStorage.setItem("Id", resultadoInfoUsuario.Id);
+                            localStorage.setItem("Usuario", resultadoInfoUsuario.Nome);
+                            console.log(resultadoInfoUsuario);
+                        }
+                        if (this.status == 500) {
+                            console.log(this.responseText);
+                        }
+                    }
+                    requisitarIdUsuario.send();
+
+                    window.location.assign("http://localhost:49774/Compras.html");
+                }
+            }
+            requisicao.send("username=" + usuario + "&password=" + senha + "&grant_type=password");
+
+        } else {
+
+            alert(erroLogin);
+
         }
-        requisicao.send(JSON.stringify(dado));
+
     }
+
 </script>
 </html>

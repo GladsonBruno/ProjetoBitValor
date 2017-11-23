@@ -1,7 +1,7 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
-    <title></title>
+    <title>Comprar</title>
     <meta charset="utf-8" />
     <!-- Última versão CSS compilada e minificada -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
@@ -10,6 +10,9 @@
 
     <!-- Tema opcional -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+    <!--Estilização compras-->
+    <link href="style/EstiloCompras.css" rel="stylesheet" />
 
     <!-- Última versão JavaScript compilada e minificada -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
@@ -21,7 +24,11 @@
     <div class="container">
         <br /><br />
         <h1>Viabilidade Spred</h1>
+        <button class="btn btn-warning" style="float:right" onclick="logoff()"><h3>Logoff</h3></button>
+        <!--Quando a pagina carregar irá aparecer o nome do usuario-->
+        <div class="alert alert-success" id="MostrarNomeUsuario" style="float: left"></div>
         <div class="jumbotron">
+            <br/>
             <h4>Exchange de Compra</h4>
             FB
             <input type="radio" name="opcaoCompra" value="FB" />
@@ -32,7 +39,7 @@
 
             <br />
 
-            Compra: <input type="number" id="valorCompra" value="" />
+            Valor Compra: <input type="number" id="valorCompra" value="" />
             <br />
             <h4>Exchange de Venda</h4>
             FB
@@ -43,9 +50,11 @@
             <input type="radio" name="opcaoVenda" value="B2U" />
 
             <br />
-            Venda: <input type="number" id="valorVenda" value="" />
+            Valor Venda: <input type="number" id="valorVenda" value="" />
             <br /><br />
             <!--Investimento Reais-->
+            Quanto você irá investir
+            <br />
             Montante: <input type="number" id="montante" value="" />
 
             <br /><br />
@@ -83,6 +92,10 @@
 </body>
 <script>
 
+    $(document).ready(function () {
+        $("#MostrarNomeUsuario").html("Seja bem vindo(a): " + localStorage.getItem("Usuario"));
+    });
+
     function calcular() {
         var opcaoCompra = $("input[type=radio][name=opcaoCompra]").filter(':checked').val();
         var valorCompra = $("#valorCompra").val();
@@ -117,16 +130,15 @@
                 Montante: montante
             };
 
-
             var requisicao = new XMLHttpRequest();
             requisicao.open('POST', 'http://localhost:49744/api/bitvalor', false);
-            requisicao.setRequestHeader('content-type', 'application/json');
+            requisicao.setRequestHeader('Content-Type', 'application/json');
             requisicao.onload = function () {
                 var resultado = JSON.parse(this.responseText);
 
                 $("#Lucro").html(resultado.QuantidadeLucro);
                 $("#PorcentagemLucro").html(resultado.PorcentagemLucro);
-            }
+            }           
 
             requisicao.send(JSON.stringify(dado));
         } else {
@@ -138,22 +150,31 @@
     }
 
     $(document).ready(function () {
-        var requisicao = new XMLHttpRequest();
-        requisicao.open('GET', 'http://localhost:49744/api/compra', true);
-        requisicao.onload = function () {
-            var resultado = JSON.parse(this.responseText);
-            console.log(resultado);
-            var elementos;
+        if (localStorage.getItem("token") == null || localStorage.getItem("token") == undefined || localStorage.getItem("token").toString().length < 100) {
             
-            for (var item in resultado) {
-                //Definindo variável que irá guardar os elementos do banco
-                elementos += "<tr scope='row'><td>" + resultado[item].Id + "</td><td>" + resultado[item].OpcaoCompra + "</td>" + "<td>R$ " + resultado[item].ValorCompra + "</td>" + "<td>" + resultado[item].OpcaoVenda + "</td>" + "<td>R$ " + resultado[item].ValorVenda + "</td>" + "<td>R$ " + resultado[item].Montante + "</td>" + "<td>R$ " + resultado[item].QuantidadeLucro + "</td>" + "<td>" + resultado[item].PorcentagemLucro + " %</td> <td><button class='btn btn-danger' id='" + resultado[item].Id + "' onclick='excluir(" + resultado[item].Id + ")'>Excluir</button></td> </tr>";
-            }
-            //Colocando elementos do bando na tabela.
-            $(".ConteudoTabelaCompras").append(elementos);                
-        }
-        requisicao.send();
+            window.location.assign("http://localhost:49774/Index.html");
 
+        } else {
+            var Id = localStorage.getItem("Id");
+
+            var requisicao = new XMLHttpRequest();
+            requisicao.open('GET', 'http://localhost:49744/api/compra/' + Id, true);
+            requisicao.setRequestHeader('content-type', 'application/x-www-form-urlencoded');
+            requisicao.onload = function () {
+                var resultado = JSON.parse(this.responseText);
+                console.log(resultado);
+                var elementos;
+
+                for (var item in resultado) {
+                    //Definindo variável que irá guardar os elementos do banco
+                    elementos += "<tr scope='row'><td>" + resultado[item].Id + "</td><td>" + resultado[item].OpcaoCompra + "</td>" + "<td>R$ " + resultado[item].ValorCompra + "</td>" + "<td>" + resultado[item].OpcaoVenda + "</td>" + "<td>R$ " + resultado[item].ValorVenda + "</td>" + "<td>R$ " + resultado[item].Montante + "</td>" + "<td>R$ " + resultado[item].QuantidadeLucro + "</td>" + "<td>" + resultado[item].PorcentagemLucro + " %</td> <td><button class='btn btn-danger' id='" + resultado[item].Id + "' onclick='excluir(" + resultado[item].Id + ")'>Excluir</button></td> </tr>";
+                }
+                //Colocando elementos do bando na tabela.
+                $(".ConteudoTabelaCompras").append(elementos);
+            }
+            requisicao.send(Id);
+
+        }        
     });
 
     function excluir(id) {
@@ -170,7 +191,7 @@
 
             var teste = alert("Transação Número: " + id + " Excluída com Sucesso");
             
-            setInterval(function () { location.reload(); }, 2000);
+            location.reload();
         }        
     }
 
@@ -208,6 +229,7 @@
 
                 var objetoCompra = new Object();
                 objetoCompra.Id = 1;
+                objetoCompra.IdUsuario = localStorage.getItem("Id");
                 objetoCompra.OpcaoCompra = opcaoCompra;
                 objetoCompra.ValorCompra = valorCompra;
                 objetoCompra.OpcaoVenda = opcaoVenda;
@@ -225,11 +247,20 @@
 
                 }
                 requisicaoCompra.send(JSON.stringify(objetoCompra));
-                setInterval(function () { location.reload(); }, 2000);
+                alert("Compra realizada com sucesso ;-)");
+                location.reload();
 
             }
     }
 
+    function logoff() {
+        localStorage.setItem("Id", "");
+        localStorage.setItem("token", "");
+        alert('Até logo ' + localStorage.getItem('Usuario'));
+        setInterval(function () {
+            window.location.assign("http://localhost:49774/Index.html");
+        }, 1000);
+    }
     
 
     
